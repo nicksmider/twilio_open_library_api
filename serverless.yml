@@ -1,0 +1,32 @@
+# Welcome to serverless. Read the docs
+# https://serverless.com/framework/docs/
+
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+
+# The `service` block is the name of the service
+service: twilio
+
+frameworkVersion: "3"
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: nodejs16.x
+
+# The `functions` block defines what code to deploy
+functions:
+  twilio:
+    handler: handler.twilioHandler
+    layers:
+      - arn:aws:lambda:us-east-1:119800885494:layer:twilioPreBuilt:4
+    environment:
+      TWILIO_ACCOUNT_SID: ${param:sid}
+      TWILIO_AUTH_TOKEN: ${param:token}
+      TWILIO_PHONE_NUMBER: ${param:number}
+
+    events:
+      - http:
+          path: twilio
+          method: post
+          cors: true

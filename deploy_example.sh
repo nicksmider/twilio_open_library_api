@@ -1,0 +1,1 @@
+serverless deploy --param="sid=<replace>" --param="token=<replace>" --param="number=<replace>"
